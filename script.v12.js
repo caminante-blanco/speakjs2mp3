@@ -26,7 +26,7 @@ async function loadFFmpeg() {
     log("Loading FFmpeg engine...");
     ffmpeg = createFFmpeg({ 
         log: true,
-        corePath: 'lib/ffmpeg/ffmpeg-core.js'
+        corePath: new URL('lib/ffmpeg/ffmpeg-core.js', document.location).href
     });
     await ffmpeg.load();
     log("FFmpeg engine ready.");
