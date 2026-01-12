@@ -48,6 +48,8 @@ function generateAudio(text) {
         // 2. Ensure any other [command] becomes [[command]]
         safeText = safeText.replace(/\[+/g, '[[').replace(/\]+/g, ']]');
 
+        log("Sending to engine: " + safeText);
+
         const speed = parseInt(document.getElementById('speed').value);
         const pitch = parseInt(document.getElementById('pitch').value);
         
