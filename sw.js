@@ -1,4 +1,4 @@
-const CACHE_NAME = 'speakjs2mp3-v6';
+const CACHE_NAME = 'speakjs2mp3-v7';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
