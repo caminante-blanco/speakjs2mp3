@@ -261,3 +261,27 @@ Serving HTTP on 0.0.0.0 port 8082 (http://0.0.0.0:8082/) ...
 127.0.0.1 - - [12/Jan/2026 15:14:56] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 15:14:56] "GET /lib/ffmpeg/ffmpeg-core.js HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 15:14:56] "GET /lib/ffmpeg/ffmpeg-core.wasm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /index.html HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /script.v12.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /lib/ffmpeg/ffmpeg-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /lib/ffmpeg/ffmpeg-core.wasm HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:16:04] "GET /lib/ffmpeg/ffmpeg.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/ffmpeg/ffmpeg.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/mespeak/mespeak.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/lame.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /script.v12.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /cheatsheet.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/ffmpeg/ffmpeg-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:15] "GET /lib/ffmpeg/ffmpeg-core.wasm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:16:18] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:16:18] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
