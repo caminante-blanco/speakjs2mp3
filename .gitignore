@@ -1,0 +1,11 @@
+node_modules/
+bun.lock
+test_app.js
+benchmark.js
+benchmark_result.mp4
+test_4k.png
+test_4k.jpg
+server.log
+server_8081.log
+.DS_Store
+*.tmp
