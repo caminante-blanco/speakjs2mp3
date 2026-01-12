@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>speakjs2mp3</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 50px;
+        }
+        div { margin-bottom: 20px; }
+        button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        input[type="range"] { width: 200px; }
+    </style>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>speakjs2mp3</h1>
+
+    <div>
+        <label for="text-input">Input:</label><br>
+        <textarea id="text-input" rows="5" cols="40">This is the kind of pedestrian-centered design I've been hoping for</textarea>
+    </div>
+
+    <div>
+        <label for="speed">Speed (<span id="speed-val">175</span>):</label>
+        <input type="range" id="speed" min="80" max="400" value="175">
+    </div>
+
+    <div>
+        <label for="pitch">Pitch (<span id="pitch-val">50</span>):</label>
+        <input type="range" id="pitch" min="0" max="100" value="50">
+    </div>
+
+    <div>
+        <button id="btn-preview">Preview</button>
+        <button id="btn-download">Download MP3</button>
+    </div>
+
+    <div id="log-output"></div>
+
+    <hr>
+    <small>
+        Uses <a href="http://www.masswerk.at/mespeak/">meSpeak.js</a> (GPL) and <a href="https://github.com/zhuker/lamejs">lamejs</a> (LGPL).
+    </small>
+
+    <script src="lib/mespeak/mespeak.js"></script>
+    <script src="lib/lame.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

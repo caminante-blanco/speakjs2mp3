@@ -1,0 +1,59 @@
+Serving HTTP on 0.0.0.0 port 8082 (http://0.0.0.0:8082/) ...
+127.0.0.1 - - [12/Jan/2026 14:18:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /lib/mespeak/mespeak.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /lib/lame.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 14:18:58] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 14:18:58] "GET /lib/mespeak//lib/mespeak/voices/en/en-rp.json HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:20:23] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 14:20:23] "GET /lib/mespeak//lib/mespeak/voices/en/en-rp.json HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 14:21:53] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:21:53] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:21:53] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:21:53] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:21:53] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:21:54] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:22:23] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:22:23] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:23:17] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 14:23:17] "GET /voices/en/en-rp.json HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 14:23:49] "HEAD /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:23:59] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:11] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:11] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:11] "HEAD /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /lib/mespeak//mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:26:58] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:28:02] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:28:02] "GET /lib/mespeak/mespeak.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:28:02] "GET /lib/lame.min.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:28:02] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:28:03] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:28:03] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 304 -
