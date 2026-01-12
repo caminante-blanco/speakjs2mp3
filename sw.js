@@ -1,14 +1,17 @@
-const CACHE_NAME = 'speakjs2mp3-v10';
+const CACHE_NAME = 'speakjs2mp3-v11';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './cheatsheet.html',
-  './script.v7.js',
+  './script.v11.js',
   './lib/lame.min.js',
   './lib/mespeak/mespeak.js',
   './lib/mespeak/mespeak-core.js',
   './lib/mespeak/mespeak_config.json',
-  './lib/mespeak/voices/en/en-rp.json'
+  './lib/mespeak/voices/en/en-rp.json',
+  './lib/ffmpeg/ffmpeg.min.js',
+  './lib/ffmpeg/ffmpeg-core.js',
+  './lib/ffmpeg/ffmpeg-core.wasm'
 ];
 
 self.addEventListener('install', (event) => {

@@ -54,6 +54,16 @@
         <button id="btn-preview">Preview</button>
         <button id="btn-download">Download MP3</button>
     </div>
+
+    <hr>
+    <h3>Instagram Export (4K MP4)</h3>
+    <div>
+        <label for="image-input">Select Background Image (Any format):</label><br>
+        <input type="file" id="image-input" accept="image/*">
+    </div>
+    <div>
+        <button id="btn-video" disabled>Create Video [FFmpeg]</button>
+    </div>
     
     <div>
         <a href="cheatsheet.html" target="_blank">Command Cheatsheet</a>
@@ -63,11 +73,12 @@
 
     <hr>
     <small>
-        Uses <a href="http://www.masswerk.at/mespeak/">meSpeak.js</a> (GPL) and <a href="https://github.com/zhuker/lamejs">lamejs</a> (LGPL).
+        Uses <a href="http://www.masswerk.at/mespeak/">meSpeak.js</a> (GPL), <a href="https://github.com/zhuker/lamejs">lamejs</a> (LGPL), and <a href="https://ffmpegwasm.netlify.app/">ffmpeg.wasm</a>.
     </small>
 
+    <script src="lib/ffmpeg/ffmpeg.min.js"></script>
     <script src="lib/mespeak/mespeak.js"></script>
     <script src="lib/lame.min.js"></script>
-    <script src="script.v7.js"></script>
+    <script src="script.v11.js"></script>
 </body>
 </html>
