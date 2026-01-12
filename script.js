@@ -63,7 +63,7 @@ function generateAudio(text) {
         log("Synthesizing...");
 
         // The callback receives: (success, id, stream)
-        meSpeak.speak(text, options, (success, id, stream) => {
+        meSpeak.speak(safeText, options, (success, id, stream) => {
             if (success) {
                 resolve(stream);
             } else {
