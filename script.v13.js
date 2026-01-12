@@ -265,20 +265,22 @@ imageInput.addEventListener('change', async () => {
         ffmpeg.FS('writeFile', 'image', await fetchFile(imageFile));
 
         log("Rendering Video (4K Still)...");
-        // Optimization: -framerate 5 and -preset ultrafast 
-        // This makes 4K still image encoding roughly 5-10x faster.
+        // The "Lossless IG-Ready Hack":
+        // -framerate 30: Native Instagram rate (avoids server-side jitter)
+        // -crf 0: Mathematically lossless quality
+        // -tune stillimage: Optimized for static backgrounds (instant encoding of duplicates)
         await ffmpeg.run(
             '-loop', '1',
-            '-framerate', '5',
+            '-framerate', '30',
             '-i', 'image',
             '-i', 'audio.mp3',
             '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
             '-c:v', 'libx264',
             '-preset', 'ultrafast',
+            '-crf', '0',
             '-tune', 'stillimage',
             '-c:a', 'copy',
             '-shortest',
-            '-r', '5',
             '-pix_fmt', 'yuv420p',
             'out.mp4'
         );

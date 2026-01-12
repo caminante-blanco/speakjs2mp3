@@ -90,3 +90,65 @@
 127.0.0.1 - - [12/Jan/2026 15:31:08] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 15:31:09] "GET /lib/ffmpeg/ffmpeg-core.worker.js HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 15:31:10] "GET /sw.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:33:47] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:47] "GET /lib/ffmpeg/ffmpeg.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:47] "GET /lib/mespeak/mespeak.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:47] "GET /lib/lame.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:47] "GET /script.v12.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /script.v12.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/ffmpeg/ffmpeg-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /_headers HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /cheatsheet.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/ffmpeg/ffmpeg-core.wasm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38612)
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/usr/lib/python3.13/http/server.py", line 690, in do_GET
+    self.copyfile(f, self.wfile)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/http/server.py", line 892, in copyfile
+    shutil.copyfileobj(source, outputfile)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+    ~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+127.0.0.1 - - [12/Jan/2026 15:33:48] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:33:53] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:33:53] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:33:55] "GET /lib/ffmpeg/ffmpeg-core.worker.js HTTP/1.1" 200 -
