@@ -4,7 +4,7 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './_headers',
   './cheatsheet.html',
-  './script.v13.js',
+  './script.v14.js',
   './lib/lame.min.js',
   './lib/mespeak/mespeak.js',
   './lib/mespeak/mespeak-core.js',

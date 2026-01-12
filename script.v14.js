@@ -265,10 +265,9 @@ imageInput.addEventListener('change', async () => {
         ffmpeg.FS('writeFile', 'image', await fetchFile(imageFile));
 
         log("Rendering Video (4K Still)...");
-        // The "Lossless IG-Ready Hack":
-        // -framerate 30: Native Instagram rate (avoids server-side jitter)
-        // -crf 0: Mathematically lossless quality
-        // -tune stillimage: Optimized for static backgrounds (instant encoding of duplicates)
+        // The "Brain Dead" Encoder Method:
+        // x264-params: keyint=infinite:min-keyint=infinite:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1
+        // This disables all 'smart' H.264 features, making it a simple memory-copy operation.
         await ffmpeg.run(
             '-loop', '1',
             '-framerate', '30',
@@ -277,11 +276,12 @@ imageInput.addEventListener('change', async () => {
             '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
             '-c:v', 'libx264',
             '-preset', 'ultrafast',
-            '-crf', '0',
             '-tune', 'stillimage',
+            '-x264-params', 'keyint=infinite:min-keyint=infinite:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1',
             '-c:a', 'copy',
             '-shortest',
             '-pix_fmt', 'yuv420p',
+            '-movflags', '+faststart',
             'out.mp4'
         );
 
