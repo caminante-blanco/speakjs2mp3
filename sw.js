@@ -1,7 +1,8 @@
-const CACHE_NAME = 'speakjs2mp3-v16';
+const CACHE_NAME = 'speakjs2mp3-v17';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './_headers',
   './cheatsheet.html',
   './script.v12.js',
   './lib/lame.min.js',
