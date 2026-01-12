@@ -41,9 +41,12 @@ async function init() {
 // Generate Audio (Async)
 function generateAudio(text) {
     return new Promise((resolve, reject) => {
-        // Mobile Convenience: Convert [command] to [[command]]
-        // Replaces any sequence of brackets with exactly two brackets
-        const safeText = text.replace(/\[+/g, '[[').replace(/\]+/g, ']]');
+        // Mobile Convenience Rules:
+        // 1. Convert [number] (e.g. [500]) to [[slnc number]]
+        let safeText = text.replace(/\[(\d+)\]/g, '[[slnc $1]]');
+        
+        // 2. Ensure any other [command] becomes [[command]]
+        safeText = safeText.replace(/\[+/g, '[[').replace(/\]+/g, ']]');
 
         const speed = parseInt(document.getElementById('speed').value);
         const pitch = parseInt(document.getElementById('pitch').value);
