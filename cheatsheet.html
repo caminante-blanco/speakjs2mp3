@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSpeak Cheatsheet</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+        h2 { border-bottom: 2px solid #333; margin-top: 30px; }
+        .back-link { display: block; margin-bottom: 20px; color: #0066cc; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">&larr; Back to Generator</a>
+
+    <h1>Command Cheatsheet</h1>
+    <p>Type these commands inside your text. The app automatically converts single brackets <code>[]</code> to the required double brackets <code>[[]]</code>.</p>
+
+    <h2>Pauses & Silence</h2>
+    <ul>
+        <li><code>[slnc 500]</code> : Insert 500ms of silence.</li>
+        <li><code>[slnc 1000]</code> : Insert 1 second of silence.</li>
+    </ul>
+
+    <h2>Emphasis & Stress</h2>
+    <ul>
+        <li><code>[emph]</code> : Emphasize the NEXT word.</li>
+    </ul>
+
+    <h2>Voice Properties</h2>
+    <ul>
+        <li><code>[rate 200]</code> : Change speed to 200 WPM.</li>
+        <li><code>[vol 0.5]</code> : Set volume to 50%.</li>
+        <li><code>[pitch 80]</code> : Set pitch to 80 (range 0-99).</li>
+    </ul>
+
+    <h2>Phonetic Input</h2>
+    <p>You can write raw phonemes by enclosing them in brackets:</p>
+    <ul>
+        <li><code>[DIs Iz f@n'EtIk]</code> : "This is phonetic"</li>
+    </ul>
+</body>
+</html>
