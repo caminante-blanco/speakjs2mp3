@@ -265,10 +265,14 @@ imageInput.addEventListener('change', async () => {
         ffmpeg.FS('writeFile', 'image', await fetchFile(imageFile));
 
         log("Rendering Video (4K Still)...");
+        // Command: Loop image, add audio, use libx264, tune for still image, 
+        // copy audio without re-encoding, stop at shortest stream (audio).
+        // scale filter ensures even dimensions for yuv420p compatibility.
         await ffmpeg.run(
             '-loop', '1',
             '-i', 'image',
             '-i', 'audio.mp3',
+            '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
             '-c:v', 'libx264',
             '-tune', 'stillimage',
             '-c:a', 'copy',
