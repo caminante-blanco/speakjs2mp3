@@ -58,9 +58,9 @@ function generateAudio(text) {
             speed: speed,
             pitch: pitch,
             amplitude: 100,
-            // variant: 'klatt', // Temporarily disabled to debug command parsing
+            variant: 'klatt',
             wordgap: 2,
-            // ssml: true, // Disabled
+            log: true, // Enable debug logging in meSpeak
             rawdata: 'array'
         };
 
