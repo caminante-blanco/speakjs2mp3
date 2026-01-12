@@ -126,3 +126,8 @@ Serving HTTP on 0.0.0.0 port 8082 (http://0.0.0.0:8082/) ...
 127.0.0.1 - - [12/Jan/2026 14:43:18] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 14:43:18] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
 127.0.0.1 - - [12/Jan/2026 14:43:18] "GET /cheatsheet.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:44:19] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 14:44:19] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:44:19] "GET /index.html HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:44:19] "GET /cheatsheet.html HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 14:44:19] "GET /script.js HTTP/1.1" 200 -

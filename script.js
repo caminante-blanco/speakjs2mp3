@@ -42,12 +42,12 @@ async function init() {
 function generateAudio(text) {
     return new Promise((resolve, reject) => {
         // Mobile Convenience Rules:
-        // 1. Convert [number] (e.g. [500]) to SSML break
-        // We use SSML <break> because meSpeak/eSpeak handles it more reliably when -m is set.
-        let safeText = text.replace(/\[(\d+)\]/g, '<break time="$1ms"/>');
+        // 1. Convert [number] (e.g. [500]) to [[slnc number]]
+        // Reverting to native eSpeak commands to test if SSML was the issue or the Variant.
+        let safeText = text.replace(/\[(\d+)\]/g, '[[slnc $1]]');
         
-        // 2. We remove other brackets to avoid them being read out
-        safeText = safeText.replace(/\[|\]/g, '');
+        // 2. Ensure any other [command] becomes [[command]]
+        safeText = safeText.replace(/\[+/g, '[[').replace(/\]+/g, ']]');
 
         log("Sending to engine: " + safeText);
 
@@ -58,9 +58,9 @@ function generateAudio(text) {
             speed: speed,
             pitch: pitch,
             amplitude: 100,
-            variant: 'klatt',
+            // variant: 'klatt', // Temporarily disabled to debug command parsing
             wordgap: 2,
-            ssml: true, // Enable SSML parsing
+            // ssml: true, // Disabled
             rawdata: 'array'
         };
 
