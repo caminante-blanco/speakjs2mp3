@@ -175,3 +175,28 @@ BrokenPipeError: [Errno 32] Broken pipe
 127.0.0.1 - - [12/Jan/2026 15:42:14] code 404, message File not found
 127.0.0.1 - - [12/Jan/2026 15:42:14] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
 127.0.0.1 - - [12/Jan/2026 15:42:15] "GET /lib/ffmpeg/ffmpeg-core.worker.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:18] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /lib/lame.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /script.v14.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /lib/ffmpeg/ffmpeg.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /lib/mespeak/mespeak.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:19] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /index.html HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /script.v14.js HTTP/1.1" 304 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /_headers HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /cheatsheet.html HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/mespeak/mespeak-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/mespeak/voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/ffmpeg/ffmpeg-core.js HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/mespeak/mespeak_config.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/ffmpeg/ffmpeg-core.wasm HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:20] "GET /lib/mespeak//voices/en/en-rp.json HTTP/1.1" 200 -
+127.0.0.1 - - [12/Jan/2026 15:51:25] code 404, message File not found
+127.0.0.1 - - [12/Jan/2026 15:51:25] "GET /lib/ffmpeg/ffmpeg.min.js.map HTTP/1.1" 404 -
+127.0.0.1 - - [12/Jan/2026 15:51:26] "GET /lib/ffmpeg/ffmpeg-core.worker.js HTTP/1.1" 200 -

@@ -265,21 +265,23 @@ imageInput.addEventListener('change', async () => {
         ffmpeg.FS('writeFile', 'image', await fetchFile(imageFile));
 
         log("Rendering Video (4K Still)...");
-        // The "Brain Dead" Encoder Method:
-        // x264-params: keyint=infinite:min-keyint=infinite:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1
-        // This disables all 'smart' H.264 features, making it a simple memory-copy operation.
+        // The "Brain Dead" 1FPS Encoder Method:
+        // -framerate 1: Only 1 frame per second (minimum viable for IG)
+        // x264-params: infinite keyframes, no scene detection, no deblocking, no complex entropy.
+        // This is effectively a memory-copy into an MP4 container.
         await ffmpeg.run(
             '-loop', '1',
-            '-framerate', '30',
+            '-framerate', '1',
             '-i', 'image',
             '-i', 'audio.mp3',
             '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
             '-c:v', 'libx264',
             '-preset', 'ultrafast',
             '-tune', 'stillimage',
-            '-x264-params', 'keyint=infinite:min-keyint=infinite:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1',
+            '-x264-params', 'keyint=infinite:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1',
             '-c:a', 'copy',
             '-shortest',
+            '-r', '1',
             '-pix_fmt', 'yuv420p',
             '-movflags', '+faststart',
             'out.mp4'
