@@ -1,9 +1,9 @@
-const CACHE_NAME = 'speakjs2mp3-v11';
+const CACHE_NAME = 'speakjs2mp3-v12';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './cheatsheet.html',
-  './script.v11.js',
+  './script.v12.js',
   './lib/lame.min.js',
   './lib/mespeak/mespeak.js',
   './lib/mespeak/mespeak-core.js',
