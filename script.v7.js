@@ -52,6 +52,22 @@ function extractPCM(wavBuffer) {
     return { pcm, channels, sampleRate };
 }
 
+// Helper: Trim silence (zero samples) from start and end of PCM
+function trimSilence(pcm) {
+    let start = 0;
+    let end = pcm.length;
+
+    // Find first non-zero sample
+    while (start < end && pcm[start] === 0) start++;
+    
+    // Find last non-zero sample
+    while (end > start && pcm[end - 1] === 0) end--;
+
+    if (start >= end) return new Int16Array(0); // All silence
+    
+    return pcm.subarray(start, end);
+}
+
 // Generate Audio (Async) - Manual Stitching Edition
 async function generateAudio(text) {
     // 1. Split text into segments: ["text", 1000, "text"]
@@ -89,7 +105,11 @@ async function generateAudio(text) {
                     else reject(new Error("Synthesis failed on: " + segment.val));
                 });
             });
-            const { pcm, channels: c, sampleRate: s } = extractPCM(wavData);
+            const { pcm: rawPcm, channels: c, sampleRate: s } = extractPCM(wavData);
+            
+            // Trim engine padding
+            const pcm = trimSilence(rawPcm);
+            
             channels = c;
             sampleRate = s;
             
