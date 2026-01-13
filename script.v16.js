@@ -261,6 +261,7 @@ btnVideo.addEventListener('click', () => {
 async function getBestAudioConfig(channels, sampleRate) {
     const configs = [
         { codec: 'mp4a.40.2', numberOfChannels: channels, sampleRate, bitrate: 128_000 }, // AAC-LC
+        { codec: 'opus', numberOfChannels: channels, sampleRate, bitrate: 128_000 }
     ];
 
     for (const config of configs) {
@@ -269,8 +270,7 @@ async function getBestAudioConfig(channels, sampleRate) {
             if (support.supported) return config;
         } catch (e) {}
     }
-    // If AAC fails, we will use our internal MP3 encoder (lamejs)
-    return { codec: 'mp3', internal: true };
+    throw new Error("No supported audio codec found.");
 }
 
 imageInput.addEventListener('change', async () => {
@@ -283,8 +283,13 @@ imageInput.addEventListener('change', async () => {
         const { pcm: rawPcm, channels, sampleRate } = await generateAudio(text);
         const durationSeconds = rawPcm.length / (sampleRate * channels);
         
+        log("Preparing Audio...");
+        // Convert s16 to f32 (standard for WebCodecs AudioData)
+        const pcmF32 = new Float32Array(rawPcm.length);
+        for (let i = 0; i < rawPcm.length; i++) pcmF32[i] = rawPcm[i] / 32768;
+
         const audioConfig = await getBestAudioConfig(channels, sampleRate);
-        log(`Using audio codec: ${audioConfig.codec} ${audioConfig.internal ? '(Software)' : '(Native)'}`);
+        log(`Using audio codec: ${audioConfig.codec}`);
 
         log("Preparing Video...");
         const imageBitmap = await createImageBitmap(imageFile);
@@ -300,61 +305,32 @@ imageInput.addEventListener('change', async () => {
                 height: height
             },
             audio: {
-                codec: audioConfig.codec === 'mp3' ? 'mp3' : (audioConfig.codec === 'opus' ? 'opus' : 'aac'),
+                codec: audioConfig.codec === 'opus' ? 'opus' : 'aac',
                 numberOfChannels: channels,
                 sampleRate: sampleRate
             },
             fastStart: 'in-memory'
         });
 
-        if (audioConfig.internal) {
-            log("Encoding Audio (Software MP3)...");
-            const mp3Encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128);
-            const blockSize = 1152;
-            for (let i = 0; i < rawPcm.length; i += blockSize) {
-                const chunk = rawPcm.subarray(i, i + blockSize);
-                const mp3buf = mp3Encoder.encodeBuffer(chunk);
-                if (mp3buf.length > 0) {
-                    muxer.addAudioChunk({
-                        data: mp3buf,
-                        type: 'key',
-                        timestamp: (i * 1_000_000) / (sampleRate * channels),
-                        duration: (chunk.length * 1_000_000) / (sampleRate * channels)
-                    });
-                }
-            }
-            const endBuf = mp3Encoder.flush();
-            if (endBuf.length > 0) {
-                muxer.addAudioChunk({
-                    data: endBuf,
-                    type: 'key',
-                    timestamp: (rawPcm.length * 1_000_000) / (sampleRate * channels),
-                    duration: 0
-                });
-            }
-        } else {
-            log("Encoding Audio (Native)...");
-            // Convert s16 to f32 (standard for WebCodecs AudioData)
-            const pcmF32 = new Float32Array(rawPcm.length);
-            for (let i = 0; i < rawPcm.length; i++) pcmF32[i] = rawPcm[i] / 32768;
+        const audioEncoder = new AudioEncoder({
+            output: (chunk, meta) => muxer.addAudioChunk(chunk, meta),
+            error: (e) => log("Audio Error: " + e.message)
+        });
 
-            const audioEncoder = new AudioEncoder({
-                output: (chunk, meta) => muxer.addAudioChunk(chunk, meta),
-                error: (e) => log("Audio Error: " + e.message)
-            });
-            audioEncoder.configure(audioConfig);
-            const audioData = new AudioData({
-                format: 'f32',
-                sampleRate: sampleRate,
-                numberOfFrames: pcmF32.length / channels,
-                numberOfChannels: channels,
-                timestamp: 0,
-                data: pcmF32
-            });
-            audioEncoder.encode(audioData);
-            audioData.close();
-            await audioEncoder.flush();
-        }
+        audioEncoder.configure(audioConfig);
+
+        log("Encoding Audio...");
+        const audioData = new AudioData({
+            format: 'f32',
+            sampleRate: sampleRate,
+            numberOfFrames: pcmF32.length / channels,
+            numberOfChannels: channels,
+            timestamp: 0,
+            data: pcmF32
+        });
+        audioEncoder.encode(audioData);
+        audioData.close();
+        await audioEncoder.flush();
 
         log("Encoding Video (Fast Mode)...");
         const canvas = new OffscreenCanvas(width, height);
