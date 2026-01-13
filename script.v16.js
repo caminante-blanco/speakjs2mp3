@@ -111,6 +111,9 @@ function trimSilence(pcm) {
 
 // Generate Audio (Async) - Manual Stitching Edition
 async function generateAudio(text) {
+    // Convert ! to pauses: each ! is 25ms
+    text = text.replace(/!+/g, (m) => `[${m.length * 25}]`);
+
     // 1. Split text into segments: ["text", 1000, "text"]
     const segments = [];
     const regex = /\[(\d+)\]/g;
