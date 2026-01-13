@@ -9,6 +9,7 @@ const btnDownload = document.getElementById('btn-download');
 const btnVideo = document.getElementById('btn-video');
 const imageInput = document.getElementById('image-input');
 const logOutput = document.getElementById('log-output');
+const diagnostics = document.getElementById('diagnostics');
 
 const VOICE_URL = "voices/en/en-rp.json";
 
@@ -17,28 +18,38 @@ function log(msg) {
     console.log(msg);
 }
 
-// FFmpeg setup
-const { createFFmpeg, fetchFile } = FFmpeg;
-let ffmpeg = null;
+async function runDiagnostics() {
+    const audioCodecs = [
+        { name: 'AAC-LC', config: { codec: 'mp4a.40.2', numberOfChannels: 1, sampleRate: 44100, bitrate: 128000 } },
+        { name: 'Opus', config: { codec: 'opus', numberOfChannels: 1, sampleRate: 48000, bitrate: 128000 } }
+    ];
+    const videoCodecs = [
+        { name: 'AVC (H.264) L3.1', config: { codec: 'avc1.42001f', width: 1280, height: 720, bitrate: 2000000, framerate: 30 } },
+        { name: 'AVC (H.264) L5.1', config: { codec: 'avc1.4d4033', width: 3840, height: 2160, bitrate: 4000000, framerate: 30 } }
+    ];
 
-async function loadFFmpeg() {
-    if (ffmpeg) return;
-    log("Loading FFmpeg engine...");
-    ffmpeg = createFFmpeg({ 
-        log: true,
-        corePath: new URL('lib/ffmpeg/ffmpeg-core.js', document.location).href
-    });
-    await ffmpeg.load();
-    log("FFmpeg engine ready.");
+    let html = "<strong>WebCodecs Support:</strong><br>";
+    
+    for (const c of audioCodecs) {
+        try {
+            const res = await AudioEncoder.isConfigSupported(c.config);
+            html += `${c.name}: ${res.supported ? '✅' : '❌'} `;
+        } catch (e) { html += `${c.name}: ❌ `; }
+    }
+    html += "<br>";
+    for (const c of videoCodecs) {
+        try {
+            const res = await VideoEncoder.isConfigSupported(c.config);
+            html += `${c.name}: ${res.supported ? '✅' : '❌'} `;
+        } catch (e) { html += `${c.name}: ❌ `; }
+    }
+    diagnostics.innerHTML = html;
 }
-
-imageInput.addEventListener('change', () => {
-    btnVideo.disabled = !imageInput.files.length;
-});
 
 // Initialization
 async function init() {
     log("Initializing...");
+    runDiagnostics();
     try {
         meSpeak.loadVoice(VOICE_URL, (success, msg) => {
             if (success) log("Voice loaded. System Ready.");
@@ -247,53 +258,156 @@ btnVideo.addEventListener('click', () => {
     imageInput.click();
 });
 
+async function getBestAudioConfig(channels, sampleRate) {
+    const configs = [
+        { codec: 'mp4a.40.2', numberOfChannels: channels, sampleRate, bitrate: 128_000 }, // AAC-LC
+    ];
+
+    for (const config of configs) {
+        try {
+            const support = await AudioEncoder.isConfigSupported(config);
+            if (support.supported) return config;
+        } catch (e) {}
+    }
+    // If AAC fails, we will use our internal MP3 encoder (lamejs)
+    return { codec: 'mp3', internal: true };
+}
+
 imageInput.addEventListener('change', async () => {
     const text = textInput.value;
     const imageFile = imageInput.files[0];
     if (!text || !imageFile) return;
 
     try {
-        const { pcm, channels, sampleRate } = await generateAudio(text);
-        log("Encoding audio...");
-        const mp3Blob = await getMp3Blob(pcm, channels, sampleRate);
-        const mp3Buffer = new Uint8Array(await mp3Blob.arrayBuffer());
-
-        await loadFFmpeg();
+        log("Synthesizing audio...");
+        const { pcm: rawPcm, channels, sampleRate } = await generateAudio(text);
+        const durationSeconds = rawPcm.length / (sampleRate * channels);
         
-        log("Uploading files to FFmpeg virtual FS...");
-        ffmpeg.FS('writeFile', 'audio.mp3', mp3Buffer);
-        ffmpeg.FS('writeFile', 'image', await fetchFile(imageFile));
+        const audioConfig = await getBestAudioConfig(channels, sampleRate);
+        log(`Using audio codec: ${audioConfig.codec} ${audioConfig.internal ? '(Software)' : '(Native)'}`);
 
-        log("Rendering Video (4K Still)...");
-        // The "Brain Dead" Encoder Method:
-        // -framerate 30: Native Instagram rate
-        // x264-params: keyint=9000:min-keyint=9000 (Fixes "infinite" parser error)
-        // This disables all 'smart' H.264 features, making it a simple memory-copy operation.
-        await ffmpeg.run(
-            '-loop', '1',
-            '-framerate', '30',
-            '-i', 'image',
-            '-i', 'audio.mp3',
-            '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',
-            '-c:v', 'libx264',
-            '-preset', 'ultrafast',
-            '-tune', 'stillimage',
-            '-x264-params', 'keyint=9000:min-keyint=9000:scenecut=0:no-deblock=1:no-cabac=1:bframes=0:ref=1',
-            '-c:a', 'copy',
-            '-shortest',
-            '-pix_fmt', 'yuv420p',
-            '-movflags', '+faststart',
-            'out.mp4'
-        );
+        log("Preparing Video...");
+        const imageBitmap = await createImageBitmap(imageFile);
+        
+        const width = Math.floor(imageBitmap.width / 2) * 2;
+        const height = Math.floor(imageBitmap.height / 2) * 2;
+
+        const muxer = new Mp4Muxer.Muxer({
+            target: new Mp4Muxer.ArrayBufferTarget(),
+            video: {
+                codec: 'avc',
+                width: width,
+                height: height
+            },
+            audio: {
+                codec: audioConfig.codec === 'mp3' ? 'mp3' : (audioConfig.codec === 'opus' ? 'opus' : 'aac'),
+                numberOfChannels: channels,
+                sampleRate: sampleRate
+            },
+            fastStart: 'in-memory'
+        });
+
+        if (audioConfig.internal) {
+            log("Encoding Audio (Software MP3)...");
+            const mp3Encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128);
+            const blockSize = 1152;
+            for (let i = 0; i < rawPcm.length; i += blockSize) {
+                const chunk = rawPcm.subarray(i, i + blockSize);
+                const mp3buf = mp3Encoder.encodeBuffer(chunk);
+                if (mp3buf.length > 0) {
+                    muxer.addAudioChunk({
+                        data: mp3buf,
+                        type: 'key',
+                        timestamp: (i * 1_000_000) / (sampleRate * channels),
+                        duration: (chunk.length * 1_000_000) / (sampleRate * channels)
+                    });
+                }
+            }
+            const endBuf = mp3Encoder.flush();
+            if (endBuf.length > 0) {
+                muxer.addAudioChunk({
+                    data: endBuf,
+                    type: 'key',
+                    timestamp: (rawPcm.length * 1_000_000) / (sampleRate * channels),
+                    duration: 0
+                });
+            }
+        } else {
+            log("Encoding Audio (Native)...");
+            // Convert s16 to f32 (standard for WebCodecs AudioData)
+            const pcmF32 = new Float32Array(rawPcm.length);
+            for (let i = 0; i < rawPcm.length; i++) pcmF32[i] = rawPcm[i] / 32768;
+
+            const audioEncoder = new AudioEncoder({
+                output: (chunk, meta) => muxer.addAudioChunk(chunk, meta),
+                error: (e) => log("Audio Error: " + e.message)
+            });
+            audioEncoder.configure(audioConfig);
+            const audioData = new AudioData({
+                format: 'f32',
+                sampleRate: sampleRate,
+                numberOfFrames: pcmF32.length / channels,
+                numberOfChannels: channels,
+                timestamp: 0,
+                data: pcmF32
+            });
+            audioEncoder.encode(audioData);
+            audioData.close();
+            await audioEncoder.flush();
+        }
+
+        log("Encoding Video (Fast Mode)...");
+        const canvas = new OffscreenCanvas(width, height);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(imageBitmap, 0, 0, width, height);
+        
+        let firstChunk = null;
+        let firstMeta = null;
+        const videoEncoder = new VideoEncoder({
+            output: (chunk, meta) => {
+                firstChunk = chunk;
+                firstMeta = meta;
+            },
+            error: (e) => log("Video Error: " + e.message)
+        });
+
+        // avc1.4d4033 = Main Profile, Level 5.1 (Supports 4K)
+        videoEncoder.configure({
+            codec: 'avc1.4d4033', 
+            width: width,
+            height: height,
+            bitrate: 4_000_000,
+            framerate: 30
+        });
+
+        const frame = new VideoFrame(canvas, { timestamp: 0 });
+        videoEncoder.encode(frame, { keyFrame: true });
+        frame.close();
+        await videoEncoder.flush();
+
+        if (firstChunk) {
+            const videoData = new Uint8Array(firstChunk.byteLength);
+            firstChunk.copyTo(videoData);
+
+            const fps = 30;
+            const totalFrames = Math.ceil(durationSeconds * fps);
+            for (let i = 0; i < totalFrames; i++) {
+                const timestamp = (i * 1_000_000) / fps;
+                const newChunk = new EncodedVideoChunk({
+                    type: firstChunk.type,
+                    timestamp: timestamp,
+                    duration: 1_000_000 / fps,
+                    data: videoData
+                });
+                muxer.addVideoChunk(newChunk, firstMeta);
+            }
+        }
+
+        muxer.finalize();
+        const { buffer } = muxer.target;
 
         log("Finalizing...");
-        const data = ffmpeg.FS('readFile', 'out.mp4');
-        
-        ffmpeg.FS('unlink', 'audio.mp3');
-        ffmpeg.FS('unlink', 'image');
-        ffmpeg.FS('unlink', 'out.mp4');
-
-        const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+        const url = URL.createObjectURL(new Blob([buffer], { type: 'video/mp4' }));
         const a = document.createElement('a');
         a.href = url;
         a.download = `${getTimestamp()}_spkjs.mp4`;
@@ -301,6 +415,7 @@ imageInput.addEventListener('change', async () => {
         log("Video Download started.");
 
         imageInput.value = '';
+        imageBitmap.close();
 
     } catch (e) {
         log("Error: " + e.message);

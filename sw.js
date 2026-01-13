@@ -4,15 +4,9 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './_headers',
   './cheatsheet.html',
-  './script.v16.js',
-  './lib/lame.min.js',
-  './lib/mespeak/mespeak.js',
-  './lib/mespeak/mespeak-core.js',
-  './lib/mespeak/mespeak_config.json',
-  './lib/mespeak/voices/en/en-rp.json',
-  './lib/ffmpeg/ffmpeg.min.js',
-  './lib/ffmpeg/ffmpeg-core.js',
-  './lib/ffmpeg/ffmpeg-core.wasm'
+    './script.v16.js',
+    './lib/mp4-muxer.js',
+    './lib/lame.min.js',
 ];
 
 self.addEventListener('install', (event) => {
