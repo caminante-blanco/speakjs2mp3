@@ -297,13 +297,13 @@ imageInput.addEventListener('change', async () => {
         let width = imageBitmap.width;
         let height = imageBitmap.height;
 
-        // H.264 Level 5.1 limit check: Cap longest edge at 3840px (4K)
-        const MAX_DIM = 3840;
+        // Instagram limit check: Cap longest edge at 1080px
+        const MAX_DIM = 1080;
         if (width > MAX_DIM || height > MAX_DIM) {
             const scale = MAX_DIM / Math.max(width, height);
             width = Math.floor(width * scale);
             height = Math.floor(height * scale);
-            log(`Downscaling for compatibility: ${imageBitmap.width}x${imageBitmap.height} -> ${width}x${height}`);
+            log(`Downscaling for Instagram: ${imageBitmap.width}x${imageBitmap.height} -> ${width}x${height}`);
         }
 
         // H.264 needs even dimensions
