@@ -294,8 +294,21 @@ imageInput.addEventListener('change', async () => {
         log("Preparing Video...");
         const imageBitmap = await createImageBitmap(imageFile);
         
-        const width = Math.floor(imageBitmap.width / 2) * 2;
-        const height = Math.floor(imageBitmap.height / 2) * 2;
+        let width = imageBitmap.width;
+        let height = imageBitmap.height;
+
+        // H.264 Level 5.1 limit check: Cap longest edge at 3840px (4K)
+        const MAX_DIM = 3840;
+        if (width > MAX_DIM || height > MAX_DIM) {
+            const scale = MAX_DIM / Math.max(width, height);
+            width = Math.floor(width * scale);
+            height = Math.floor(height * scale);
+            log(`Downscaling for compatibility: ${imageBitmap.width}x${imageBitmap.height} -> ${width}x${height}`);
+        }
+
+        // H.264 needs even dimensions
+        width = Math.floor(width / 2) * 2;
+        height = Math.floor(height / 2) * 2;
 
         const muxer = new Mp4Muxer.Muxer({
             target: new Mp4Muxer.ArrayBufferTarget(),
